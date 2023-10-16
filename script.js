@@ -1,24 +1,12 @@
-let faceColor = '#f4f4f4';
-let borderColor = '#800000';
-let numberLinesColor = '#000000';
-let largeHandsColor = '#800000';
-let secondHandColor = '#FF7F50';
-const form = document.querySelector('form');
-
-if (form) {
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    faceColor = event.target[0].value;
-    borderColor = event.target[1].value;
-    numberLinesColor = event.target[2].value;
-    largeHandsColor = event.target[3].value;
-    secondHandColor = event.target[4].value;
-  });
-}
+const canvas = document.getElementById('canvas');
+let faceColor = document.getElementById('face-color');
+let borderColor = document.getElementById('border-color');
+let numberLinesColor = document.getElementById('line-color');
+let largeHandsColor = document.getElementById('large-hand-color');
+let secondHandColor = document.getElementById('second-hand-color');
 
 function clock() {
   const now = new Date();
-  const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
   ctx.save();
 
@@ -26,15 +14,15 @@ function clock() {
   ctx.translate(250, 250);
   ctx.rotate(-Math.PI / 2);
 
-  ctx.strokeStyle = numberLinesColor;
-  ctx.fillStyle = faceColor;
+  ctx.strokeStyle = numberLinesColor.value;
+  ctx.fillStyle = faceColor.value;
   ctx.lineWidth = 5;
   ctx.lineCap = 'round';
 
   ctx.save();
   ctx.beginPath();
   ctx.lineWidth = 14;
-  ctx.strokeStyle = borderColor;
+  ctx.strokeStyle = borderColor.value;
   ctx.arc(0, 0, 142, 0, Math.PI * 2, true);
   ctx.stroke();
   ctx.fill();
@@ -69,7 +57,7 @@ function clock() {
 
   ctx.save();
   ctx.rotate((Math.PI / 6) * hr + (Math.PI / 360) * min + (Math.PI / 21600) * sec);
-  ctx.strokeStyle = largeHandsColor;
+  ctx.strokeStyle = largeHandsColor.value;
   ctx.lineWidth = 14;
   ctx.beginPath();
   ctx.moveTo(-20, 0);
@@ -79,7 +67,7 @@ function clock() {
 
   ctx.save();
   ctx.rotate((Math.PI / 30) * min + (Math.PI / 1800) * sec);
-  ctx.strokeStyle = largeHandsColor;
+  ctx.strokeStyle = largeHandsColor.value;
   ctx.lineWidth = 10;
   ctx.beginPath();
   ctx.moveTo(-28, 0);
@@ -89,8 +77,8 @@ function clock() {
 
   ctx.save();
   ctx.rotate((Math.PI / 30) * sec);
-  ctx.strokeStyle = secondHandColor;
-  ctx.fillStyle = secondHandColor;
+  ctx.strokeStyle = secondHandColor.value;
+  ctx.fillStyle = secondHandColor.value;
   ctx.lineWidth = 5;
   ctx.beginPath();
   ctx.moveTo(-30, 0);
@@ -106,3 +94,12 @@ function clock() {
 }
 
 requestAnimationFrame(clock);
+
+document.querySelector('button').addEventListener('click', (ev) => {
+  ev.preventDefault();
+  const dataURL = canvas.toDataURL('image/png');
+  const link = document.createElement('a');
+  link.download = 'clock.png';
+  link.href = dataURL;
+  link.click();
+});
