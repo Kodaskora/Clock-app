@@ -1,3 +1,3 @@
 # Clock App
 
-https://imaginative-otter-4dce9e.netlify.app
+https://boisterous-wisp-0b0399.netlify.app
